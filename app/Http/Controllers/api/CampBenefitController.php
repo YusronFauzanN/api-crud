@@ -69,4 +69,23 @@ class CampBenefitController extends Controller
             'message' => 'Data berhasil ditambahkan!'
         ]);
     }
+
+    public function destroy(Request $request)
+    {
+        // Find users photo
+        $camp_benefit = CampBenefit::find($request->camp_id);
+
+        if (!$camp_benefit) {
+            return response()->json([
+                'message' => 'Data Not Found!'
+            ],404);
+        }
+
+        // Delete photo
+        $camp_benefit->delete();
+
+        return response()->json([
+            'message' => 'Data berhasil dihapus!'
+        ]);
+    }
 }

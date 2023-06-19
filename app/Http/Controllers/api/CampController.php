@@ -73,4 +73,23 @@ class CampController extends Controller
             'message' => 'Data berhasil ditambahkan!'
         ]);
     }
+
+    public function destroy(Request $request)
+    {
+        // Find users photo
+        $camp = Camp::find($request->camp_id);
+
+        if (!$camp) {
+            return response()->json([
+                'message' => 'Data Not Found!'
+            ],404);
+        }
+
+        // Delete photo
+        $camp->delete();
+
+        return response()->json([
+            'message' => 'Data berhasil dihapus!'
+        ]);
+    }
 }
