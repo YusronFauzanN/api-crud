@@ -17,6 +17,13 @@ class CampController extends Controller
         return CampResource::collection($camp);
     }
 
+    public function getCamp(Request $request)
+    {
+        $camp = Camp::with('camp_benefit')->find($request->camp_id);
+
+        return new CampResource($camp);
+    }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -39,6 +46,31 @@ class CampController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Data berhasil ditambahkan!'
-        ], 401);
+        ], 201);
+    }
+
+    public function update(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'title' => [ 'string', 'max:255'],
+            'slug' => [ 'string', 'max:255'],
+            'price' => [ 'int', 'max:255'],
+        ]);
+
+        //check if validation fails
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $camp = Camp::create([
+            'title' => $request->title,
+            'slug' => $request->slug,
+            'price' => $request->price,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil ditambahkan!'
+        ]);
     }
 }

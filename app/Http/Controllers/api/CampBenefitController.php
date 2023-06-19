@@ -17,6 +17,13 @@ class CampBenefitController extends Controller
         return CampBenefitResource::collection($camp_benefit);
     }
 
+    public function getCampBenefit(Request $request)
+    {
+        $camp_benefit = CampBenefit::with('camp')->find($request->camp_id);
+
+        return new CampBenefitResource($camp_benefit);
+    }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -37,6 +44,29 @@ class CampBenefitController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Data berhasil ditambahkan!'
-        ], 401);
+        ], 201);
+    }
+
+    public function update(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'camp_id' => ['max:255'],
+            'benefit' => ['string', 'max:255']
+        ]);
+
+        //check if validation fails
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $camp = CampBenefit::create([
+            'camp_id' => $request->camp_id,
+            'name' => $request->benefit,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil ditambahkan!'
+        ]);
     }
 }
