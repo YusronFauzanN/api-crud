@@ -9,7 +9,7 @@ class Camp extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'price'];
+    protected $fillable = ['title', 'slug', 'price'];
 
     public function camp_benefit()
     {
