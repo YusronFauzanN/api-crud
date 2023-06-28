@@ -59,10 +59,17 @@ class CampBenefitController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $camp = CampBenefit::create([
-            'camp_id' => $request->camp_id,
-            'name' => $request->benefit,
-        ]);
+        $camp_benefit = CampBenefit::find($request->camp_id);
+
+        if(!$camp_benefit){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data tidak ada!'
+            ]);
+        }
+
+        $camp_benefit->name = $request->benefit;
+        $camp_benefit->save();
 
         return response()->json([
             'success' => true,

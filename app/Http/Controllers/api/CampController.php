@@ -62,15 +62,24 @@ class CampController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $camp = Camp::create([
-            'title' => $request->title,
-            'slug' => $request->slug,
-            'price' => $request->price,
-        ]);
+        $camp = Camp::find($request->camp_id);
+
+        if(!$camp){
+            return response()->json([
+                'success' => true,
+                'message' => 'Data tidak ada!'
+            ]);
+        }
+
+        $camp->title = $request->title;
+        $camp->slug = $request->slug;
+        $camp->price = $request->price;
+
+        $camp->save();
 
         return response()->json([
             'success' => true,
-            'message' => 'Data berhasil ditambahkan!'
+            'message' => 'Data berhasil diubah!'
         ]);
     }
 
