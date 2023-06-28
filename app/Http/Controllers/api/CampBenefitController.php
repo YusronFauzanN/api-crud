@@ -73,7 +73,7 @@ class CampBenefitController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Data berhasil ditambahkan!'
+            'message' => 'Data berhasil diubah!'
         ]);
     }
 

@@ -54,7 +54,7 @@ class CampController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => [ 'string', 'max:255'],
             'slug' => [ 'string', 'max:255'],
-            'price' => [ 'int', 'max:255'],
+            'price' => [ 'int'],
         ]);
 
         //check if validation fails
